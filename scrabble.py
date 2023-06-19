@@ -3,7 +3,6 @@ from menu import Menu
 import board_new
 from rules import Rules
 from letters import LetterGenerator
-import buttons_on_board
 
 
 button_width = 350
@@ -30,16 +29,10 @@ menu = Menu(window, WIDTH, HEIGHT, BLACK, WHITE)
 rules = Rules(window, WIDTH, HEIGHT, BLACK, WHITE)
 letters = LetterGenerator()
 
-
-
 # Gracz 1
 player1_letters = []
 # Gracz 2
 player2_letters = []
-
-
-
-
 
 board = board_new.Board(window, WIDTH, HEIGHT, BLACK, WHITE, player1_letters, player2_letters, current_player)
 player1_letters = letters.generate_letters(7)
@@ -67,6 +60,7 @@ def run_game():
             menu.draw_menu()
         elif game_flag:
             board.print_board()
+
             if player_turn:
                 for letter in player1_letters:
                     letter.draw()
@@ -81,17 +75,17 @@ def run_game():
             rules.draw_rules_screen()
 
         for event in pygame.event.get():
-           
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
             if game_flag:
                 for letter in player1_letters:
                     letter.handle_event(event)
-                    
+
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
-                
+
                 if menu_flag:
                     play_rect = pygame.Rect(WIDTH // 2 - 75, 250, 150, 50)
                     rules_rect = pygame.Rect(WIDTH // 2 - 75, 350, 150, 50)
@@ -115,5 +109,8 @@ def run_game():
                     if return_button_rect.collidepoint(mouse_pos):
                         rules_screen = False
                         menu_flag = True
+
+                elif game_flag:
+                    board.handle_event(event)
 
 run_game()

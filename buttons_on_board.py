@@ -9,45 +9,63 @@ TILE_BORDER_COLOR = (0, 0, 0)
 BUTTON_BACKGROUND_COLOR = (0, 0, 0)
 BUTTON_TEXT_COLOR = (255, 255, 255)
 
-class Button:
-    def __init__(self, rect, text, action):
-        self.rect = pygame.Rect(rect)
-        self.text = text
-        self.action = action
-        
 
-        
-        
-# buttons = [
-#     Button((button_start_x, button_start_y, button_width, button_height), "Pass", button_pass),
-#     Button((button_start_x, button_start_y + button_height + button_margin, button_width, button_height), "Check Word", self.button_check_word),
-#     Button((button_start_x, button_start_y + 2 * (button_height + button_margin), button_width, button_height), "Change Letter", self.button_change_letter),
-#     Button((button_start_x, button_start_y + 3 * (button_height + button_margin), button_width, button_height), "Commence Defeat", self.button_commence_defeat)
-# ]
+class GameControls:
+
+    def __init__(self, w=620, h=180, x=0, y=0):
+        self.surface = pygame.Surface((w, h))
+        self.rect = self.surface.get_rect()
+        self.rect.center = x, y
+        self.surface.fill((0, 0, 0))
+        self.buttons = []
+
+    def draw(self, screen):
+        for button in self.buttons:
+            self.surface.blit(button.surface, button.rect)
+        screen.blit(self.surface, self.rect)
+
+    def add_button(self, text, w=300, h=80, x=0, y=0):
+        self.buttons.append(Button(text, w, h, x, y))
+
+    def set_center(self, x, y):
+        self.rect.center = x, y
+
+
+class Button:
+    def __init__(self, text, w=300, h=80, x=0, y=0):
+        self.surface = pygame.Surface((w, h))
+        self.surface.fill((150, 150, 150))
+        self.rect = self.surface.get_rect()
+        self.rect.center = x, y
+        self.text = text.capitalize()
 
     def draw(self, surface):
-        pygame.draw.rect(surface, BUTTON_BACKGROUND_COLOR, self.rect)
-        font = pygame.font.Font(None, 25)
+        font = pygame.font.Font(None, 32)
         text = font.render(self.text, True, BUTTON_TEXT_COLOR)
         text_rect = text.get_rect(center=self.rect.center)
-        surface.blit(text, text_rect)
+        text_rect.center = self.rect.w // 2, self.rect.h // 2
+        self.surface.blit(text, text_rect)
+        surface.blit(self.surface, self.rect)
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(mouse_pos):
                 self.action()
-                
 
+    def action(self):
+        match self.text:
+            case "Pass":
+                self.button_pass()
 
-        
-    def draw_buttons(self):
-        for button in self.buttons:
-            button.draw(self.window)
+            case "Check word":
+                self.button_check_word()
 
-    def handle_button_events(self, event):
-        for button in self.buttons:
-            button.handle_event(event)
+            case "Change letter":
+                self.button_change_letter()
+
+            case "Commence defeat":
+                self.button_commence_defeat()
 
     def button_pass(self):
         # Implement the action for the "Pass" button
