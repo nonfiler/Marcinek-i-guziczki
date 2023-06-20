@@ -97,6 +97,8 @@ def run_game():
             if game_flag:
                 for letter in player1_letters:
                     letter.handle_event(event)
+                for letter in player2_letters:
+                    letter.handle_event(event)
             #* sczytywanie pozycji dla myszki
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
