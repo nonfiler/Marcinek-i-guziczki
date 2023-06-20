@@ -102,6 +102,9 @@ class Square:
         self.is_dragging = False
         self.reset_pos = (SQUARE_RESET_POS_X, SQUARE_RESET_POS_Y)
  
+    def __str__(self):
+        return f"ID: {self.nr}\nLetter: {self.letter}\nCoords: {self.reset_pos}\n"
+
     def set_letter(self, letter):
         self.letter = letter
 
@@ -141,7 +144,7 @@ class Square:
                 
     #? sprawdzanie czy klocek jest na plasznzy po kliknięciu pass            
     def check_if_on_board(self):
-        if self.rect.centerx > 1800:
+        if self.rect.center[0] > 1700:
             return False
         else:
             return True

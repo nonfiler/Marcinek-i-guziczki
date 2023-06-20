@@ -49,10 +49,8 @@ class Button:
 
     def handle_event(self, event, current_player):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            print(event)
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(mouse_pos):
-                print("Połączenie")
                 return self.action(current_player)
 
     def action(self, current_player):
@@ -72,24 +70,21 @@ class Button:
 
     def button_pass(self, current_player):
         # Implement the action for the "Pass" button
-        print("Pass Button Pressed")
-        print("Score Updated and Player Switched")
         current_player.current_player = not current_player.current_player
-        print("Player changed to: ", current_player.current_player)
         
         
 
-    def button_check_word(self):
-        # Implement the action for the "Check Word" button
-        print("Check Word Button Pressed")
-        print("Word Checked, Score Updated, and Player Switched")
+    # def button_check_word(self):
+    #     # Implement the action for the "Check Word" button
+    #     print("Check Word Button Pressed")
+    #     print("Word Checked, Score Updated, and Player Switched")
 
-    def button_change_letter(self):
-        # Implement the action for the "Change Random Letter" button
-        print("Change Random Letter Button Pressed")
-        print("Letter Changed, Score Updated, and Player Switched")
+    # def button_change_letter(self):
+    #     # Implement the action for the "Change Random Letter" button
+    #     print("Change Random Letter Button Pressed")
+    #     print("Letter Changed, Score Updated, and Player Switched")
 
-    def button_commence_defeat(self):
-        # Implement the action for the "Commence Defeat" button
-        print("Commence Defeat Button Pressed, Game over")
+    # def button_commence_defeat(self):
+    #     # Implement the action for the "Commence Defeat" button
+    #     print("Commence Defeat Button Pressed, Game over")
         

@@ -134,35 +134,50 @@ def run_game():
                 elif game_flag:
                     match board.handle_event(event):
                         case "Pass":
-                            if current_player.current_player:
-                                for idx, letter in enumerate(player1_letters):
-                                    if letter.check_if_on_board():
-                                        letter.reset_pos = letter.rect.center
-                                        squares_on_board.append(player1_letters.pop(idx))
+                            if not current_player.current_player:
+                                for x in range (len(player1_letters)):
+                                    if player1_letters[6 - x].check_if_on_board():
+                                        player1_letters[6 - x].reset_pos = player1_letters[6 - x].rect.center
+                                        squares_on_board.append(player1_letters.pop(6 - x))
+                                        
                                         
                                 missing_squares = 7 - len(player1_letters)
+                                print(f"Player1_letters: {len(player1_letters)}")
                                 list_of_squares = letters1.generate_letters(missing_squares)
+                                
                                 for square in list_of_squares:
                                     player1_letters.append(square)
-                                for x in player1_letters:
-                                    x.set_board(board)
-                                for x in range(min(7, len(player1_letters))):
-                                    player1_letters[x].nr = x
-                                    player1_letters[x].make_rect()
+                                for letter in player1_letters:
+                                    letter.set_board(board)
+                                    letter.nr = player1_letters.index(letter)
+                                    letter.make_rect()
 
                             else:
-                                for idx, letter in enumerate(player2_letters):
-                                    if letter.check_if_on_board():
-                                        letter.reset_pos = letter.rect.center
-                                        squares_on_board.append(player2_letters.pop(idx))
+                                for x in range (len(player2_letters)):
+                                    if player2_letters[6 - x].check_if_on_board():
+                                        player2_letters[6 - x].reset_pos = player2_letters[6 - x].rect.center
+                                        squares_on_board.append(player2_letters.pop(6 - x))
+                                        
                                 missing_squares = 7 - len(player2_letters)
+                                print(f"Player2_letters: {len(player2_letters)}")
                                 list_of_squares = letters2.generate_letters(missing_squares)
+                                
                                 for square in list_of_squares:
                                     player2_letters.append(square)
-                                for x in player2_letters:
-                                    x.set_board(board)
-                                for x in range(min(7, len(player2_letters))):
-                                    player2_letters[x].nr = x
-                                    player2_letters[x].make_rect()
+                                for letter in player2_letters:
+                                    letter.set_board(board)
+                                    letter.nr = player2_letters.index(letter)
+                                    letter.make_rect()
+                            print(f"Nr of squares: {len(squares_on_board)}")
+                            
+                            # for x in squares_on_board:
+                            #     print("Squares on board")
+                            #     print(str(x))
+                            # for x in player1_letters:
+                            #     print("Player 1")
+                            #     print(str(x))
+                            # for x in player2_letters:
+                            #     print("Player 2")
+                            #     print(str(x))
          
 run_game()
