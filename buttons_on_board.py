@@ -53,12 +53,13 @@ class Button:
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(mouse_pos):
                 print("Połączenie")
-                self.action(current_player)
+                return self.action(current_player)
 
     def action(self, current_player):
         match self.text:
             case "Pass":
                 self.button_pass(current_player)
+                return "Pass"
 
             case "Check word":
                 self.button_check_word()

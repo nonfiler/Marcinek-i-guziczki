@@ -91,7 +91,7 @@ class Board:
 
     def handle_event(self, event):
         for button in self.game_controls.buttons:
-            button.handle_event(event, self.current_player)
+            return button.handle_event(event, self.current_player)
 
 class Square:
     def __init__(self, nr):
@@ -138,4 +138,10 @@ class Square:
             mouse_pos = pygame.mouse.get_pos()
             if self.is_dragging:
                 self.rect.center = mouse_pos
-                print(self.rect)
+                
+    #? sprawdzanie czy klocek jest na plasznzy po kliknięciu pass            
+    def check_if_on_board(self):
+        if self.rect.centerx > 1800:
+            return False
+        else:
+            return True
