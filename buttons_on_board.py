@@ -9,7 +9,6 @@ TILE_BORDER_COLOR = (0, 0, 0)
 BUTTON_BACKGROUND_COLOR = (0, 0, 0)
 BUTTON_TEXT_COLOR = (255, 255, 255)
 
-
 class GameControls:
 
     def __init__(self, w=620, h=180, x=0, y=0):

@@ -1,7 +1,4 @@
 import pygame
-# import sys
-# from board import Game
-# from rules import Rules
 
 class Menu:
     def __init__(self, window, width, height, black, white):
@@ -37,19 +34,3 @@ class Menu:
         self.window.blit(exit_text, (exit_rect.centerx - exit_text.get_width() // 2, exit_rect.centery - exit_text.get_height() // 2))
 
         pygame.display.update()
-
-    # def handle_mouse_click(self, mouse_pos):
-    #         play_rect = pygame.Rect(self.width // 2 - 75, 250, 150, 50)
-    #         rules_rect = pygame.Rect(self.width // 2 - 75, 350, 150, 50)
-    #         exit_rect = pygame.Rect(self.width // 2 - 75, 450, 150, 50)
-
-    #         if play_rect.collidepoint(mouse_pos):
-    #             self.active = False
-    #             Game.active = True
-    #         elif rules_rect.collidepoint(mouse_pos):
-    #             self.active = False
-    #             Rules.active = True
-    #         elif exit_rect.collidepoint(mouse_pos):
-    #             pygame.quit()
-
-    #             sys.exit()

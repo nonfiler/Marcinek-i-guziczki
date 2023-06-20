@@ -36,22 +36,22 @@ class Board:
         self.game_controls.add_button("Commence defeat", x=465, y=135)
 
         self.board_logic = [
-            [(False, "3w"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "3w"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "3w")],
-            [(False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "empty")],
-            [(False, "empty"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "empty")],
-            [(False, "2l"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "2l")],
-            [(False, "empty"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3w"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3w"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "empty")],
-            [(False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty")],
-            [(False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty")],
-            [(False, "2w"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "2w")],
-            [(False, "3w"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "3w")],
-            [(False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty")],
-            [(False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty")],
-            [(False, "empty"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3w"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3w"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "empty")],
-            [(False, "2l"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "2l")],
-            [(False, "empty"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "empty")],
-            [(False, "empty"), (False, "2w"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "3l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "empty")],
-            [(False, "3w"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "empty"), (False, "2w"), (False, "3w"), (False, "empty"), (False, "empty"), (False, "2l"), (False, "empty"), (False, "empty"), (False, "3w")]
+            [[False, "3w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "3w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "3w"]],
+            [[False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"]],
+            [[False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "empty"]],
+            [[False, "2l"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "2l"]],
+            [[False, "empty"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3w"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3w"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "empty"]],
+            [[False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"]],
+            [[False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"]],
+            [[False, "2w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "2w"]],
+            [[False, "3w"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "3w"]],
+            [[False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"]],
+            [[False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"]],
+            [[False, "empty"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3w"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3w"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "empty"]],
+            [[False, "2l"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "2l"]],
+            [[False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "empty"]],
+            [[False, "empty"], [False, "2w"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "3l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "empty"]],
+            [[False, "3w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "3w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "3w"]]
         ]
         self.bonus_colors = {
             "2w": (255, 213, 0),   # Żółty
@@ -63,9 +63,7 @@ class Board:
     def print_board(self):
         tile_size = 40  # Size of each tile on the board
         margin = 2  # Margin between tiles
-        margin_color = (0, 0, 0)  # Color of the margin
-        
-        # Clear the window
+
         self.window.fill(self.WHITE)
         
         # Iterate over the board logic and draw each tile
@@ -93,8 +91,6 @@ class Board:
         for button in self.game_controls.buttons:
             button.handle_event(event)
 
-        
-
 class Square:
     def __init__(self, nr):
         self.nr = nr
@@ -102,11 +98,8 @@ class Square:
         self.letter = None
         self.color = SQUARE_COLOR
         self.is_dragging = False
-        #self.start_pos = (x, y)
         self.reset_pos = (SQUARE_RESET_POS_X, SQUARE_RESET_POS_Y)
-        # self.surface = pygame.Surface((40, 40))
-        # self.rect = self.surface.get_rect(center=(20, 20))
-        
+ 
     def set_letter(self, letter):
         self.letter = letter
 
@@ -144,4 +137,3 @@ class Square:
             if self.is_dragging:
                 self.rect.center = mouse_pos
                 print(self.rect)
-
