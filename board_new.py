@@ -91,7 +91,7 @@ class Board:
 
     def handle_event(self, event):
         for button in self.game_controls.buttons:
-            button.handle_event(event)
+            button.handle_event(event, self.current_player)
 
 class Square:
     def __init__(self, nr):

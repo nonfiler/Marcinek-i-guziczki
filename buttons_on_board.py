@@ -47,18 +47,18 @@ class Button:
         self.surface.blit(text, text_rect)
         surface.blit(self.surface, self.rect)
 
-    def handle_event(self, event):
+    def handle_event(self, event, current_player):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             print(event)
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(mouse_pos):
                 print("Połączenie")
-                self.action()
+                self.action(current_player)
 
-    def action(self):
+    def action(self, current_player):
         match self.text:
             case "Pass":
-                self.button_pass()
+                self.button_pass(current_player)
 
             case "Check word":
                 self.button_check_word()
@@ -69,10 +69,14 @@ class Button:
             case "Commence defeat":
                 self.button_commence_defeat()
 
-    def button_pass(self):
+    def button_pass(self, current_player):
         # Implement the action for the "Pass" button
         print("Pass Button Pressed")
         print("Score Updated and Player Switched")
+        current_player.current_player = not current_player.current_player
+        print("Player changed to: ", current_player.current_player)
+        
+        
 
     def button_check_word(self):
         # Implement the action for the "Check Word" button
@@ -86,5 +90,5 @@ class Button:
 
     def button_commence_defeat(self):
         # Implement the action for the "Commence Defeat" button
-        print("Commence Defeat Button Pressed")
-        print("Score Reset and Player Switched")
+        print("Commence Defeat Button Pressed, Game over")
+        

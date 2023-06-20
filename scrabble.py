@@ -28,18 +28,21 @@ pygame.display.set_caption("Scrabble")
 #? Tworzenie obiektów klas
 menu = Menu(window, WIDTH, HEIGHT, BLACK, WHITE)
 rules = Rules(window, WIDTH, HEIGHT, BLACK, WHITE)
-letters = LetterGenerator()
-
-
-
+letters1 = LetterGenerator()
+letters2 = LetterGenerator()
+class play_state:
+    def __init__(self):
+        self.current_player = True
+        
+current_player = play_state()
 #? ustawienia liter, graczy
-current_player = 1
+
 player1_letters = []
 player2_letters = []
 
 board = board_new.Board(window, WIDTH, HEIGHT, BLACK, WHITE, player1_letters, player2_letters, current_player)
-player1_letters = letters.generate_letters(7)
-player2_letters = letters.generate_letters(7)
+player2_letters = letters2.generate_letters(7)
+player1_letters = letters1.generate_letters(7)
 
 for x in player1_letters:
     x.set_board(board) 
@@ -50,17 +53,19 @@ for letter in player1_letters:
     letter.make_rect()
 for letter in player2_letters:
     letter.make_rect()
-
+    
+print("Player1 letters:", player1_letters)
+print("Player2 letters:",player2_letters)
 play_rect = pygame.Rect(WIDTH // 2 - 75, 250, 150, 50)
 rules_rect = pygame.Rect(WIDTH // 2 - 75, 350, 150, 50)
 exit_rect = pygame.Rect(WIDTH // 2 - 75, 450, 150, 50)
+
 #? Główna pętla gry
 def run_game():
     #? falgi do sterowania funkcjami w grze
     menu_flag = True
     game_flag = False
     rules_screen = False
-    player_turn = True
 
     global play_rect, rules_rect, exit_rect
 
@@ -71,13 +76,13 @@ def run_game():
         #* rysowanie planszy i rzeczy z nią związanych
         elif game_flag:
             board.print_board()
-            if player_turn:
+            if current_player.current_player:
                 for letter in player1_letters:
                     letter.draw()
             else:
                 for letter in player2_letters:
                     letter.draw()
-                    print(letter.rect.center())
+                    # print(letter.rect.center())
             pygame.display.flip()   
         #* rysowanie zasad 
         elif rules_screen:
