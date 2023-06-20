@@ -4,7 +4,6 @@ import board_new
 from rules import Rules
 from letters import LetterGenerator
 
-
 button_width = 350
 button_height = 80
 button_margin = 25
@@ -56,9 +55,7 @@ for letter in player1_letters:
     letter.make_rect()
 for letter in player2_letters:
     letter.make_rect()
-    
-# print("Player1 letters:", player1_letters)
-# print("Player2 letters:",player2_letters)
+
 play_rect = pygame.Rect(WIDTH // 2 - 75, 250, 150, 50)
 rules_rect = pygame.Rect(WIDTH // 2 - 75, 350, 150, 50)
 exit_rect = pygame.Rect(WIDTH // 2 - 75, 450, 150, 50)
@@ -87,7 +84,6 @@ def run_game():
             else:
                 for letter in player2_letters:
                     letter.draw()
-                    # print(letter.rect.center())
             pygame.display.flip()   
         #* rysowanie zasad 
         elif rules_screen:
@@ -139,10 +135,8 @@ def run_game():
                                     if player1_letters[6 - x].check_if_on_board():
                                         player1_letters[6 - x].reset_pos = player1_letters[6 - x].rect.center
                                         squares_on_board.append(player1_letters.pop(6 - x))
-                                        
-                                        
+                                                
                                 missing_squares = 7 - len(player1_letters)
-                                print(f"Player1_letters: {len(player1_letters)}")
                                 list_of_squares = letters1.generate_letters(missing_squares)
                                 
                                 for square in list_of_squares:
@@ -156,10 +150,8 @@ def run_game():
                                 for x in range (len(player2_letters)):
                                     if player2_letters[6 - x].check_if_on_board():
                                         player2_letters[6 - x].reset_pos = player2_letters[6 - x].rect.center
-                                        squares_on_board.append(player2_letters.pop(6 - x))
-                                        
+                                        squares_on_board.append(player2_letters.pop(6 - x))    
                                 missing_squares = 7 - len(player2_letters)
-                                print(f"Player2_letters: {len(player2_letters)}")
                                 list_of_squares = letters2.generate_letters(missing_squares)
                                 
                                 for square in list_of_squares:
@@ -168,16 +160,5 @@ def run_game():
                                     letter.set_board(board)
                                     letter.nr = player2_letters.index(letter)
                                     letter.make_rect()
-                            print(f"Nr of squares: {len(squares_on_board)}")
-                            
-                            # for x in squares_on_board:
-                            #     print("Squares on board")
-                            #     print(str(x))
-                            # for x in player1_letters:
-                            #     print("Player 1")
-                            #     print(str(x))
-                            # for x in player2_letters:
-                            #     print("Player 2")
-                            #     print(str(x))
-         
+      
 run_game()
