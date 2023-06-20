@@ -28,12 +28,12 @@ class Board:
         self.current_player = c_player
 
         self.game_controls = GameControls()
-        self.game_controls.set_center(x=self.width//2, y=3*self.height//4)
+        self.game_controls.set_center(x=self.width - 155, y=self.height - 170)
 
-        self.game_controls.add_button("Pass", x=155, y=45)
-        self.game_controls.add_button("Check word", x=465, y=45)
-        self.game_controls.add_button("Change letter", x=155, y=135)
-        self.game_controls.add_button("Commence defeat", x=465, y=135)
+        self.game_controls.add_button("Pass", x=self.width - 155, y=self.height - 295)
+        self.game_controls.add_button("Check word", x=self.width - 155, y=self.height - 210)
+        self.game_controls.add_button("Change letter", x=self.width - 155, y=self.height - 125)
+        self.game_controls.add_button("Commence defeat", x=self.width - 155, y=self.height - 40)
 
         self.board_logic = [
             [[False, "3w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "empty"], [False, "2w"], [False, "3w"], [False, "empty"], [False, "empty"], [False, "2l"], [False, "empty"], [False, "empty"], [False, "3w"]],
@@ -82,10 +82,12 @@ class Board:
 
         self.game_controls.surface.fill((0, 0, 0))
 
-        for button in self.game_controls.buttons:
-            button.draw(self.game_controls.surface)
-
         self.game_controls.draw(self.window)
+
+        for button in self.game_controls.buttons:
+            button.draw(self.window)
+
+
 
     def handle_event(self, event):
         for button in self.game_controls.buttons:

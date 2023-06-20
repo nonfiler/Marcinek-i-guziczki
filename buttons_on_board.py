@@ -11,7 +11,7 @@ BUTTON_TEXT_COLOR = (255, 255, 255)
 
 class GameControls:
 
-    def __init__(self, w=620, h=180, x=0, y=0):
+    def __init__(self, w=310, h=340, x=0, y=0):
         self.surface = pygame.Surface((w, h))
         self.rect = self.surface.get_rect()
         self.rect.center = x, y
@@ -19,8 +19,6 @@ class GameControls:
         self.buttons = []
 
     def draw(self, screen):
-        for button in self.buttons:
-            self.surface.blit(button.surface, button.rect)
         screen.blit(self.surface, self.rect)
 
     def add_button(self, text, w=300, h=80, x=0, y=0):
@@ -38,6 +36,9 @@ class Button:
         self.rect.center = x, y
         self.text = text.capitalize()
 
+    def set_center(self, coords: tuple):
+        self.rect.center = coords
+
     def draw(self, surface):
         font = pygame.font.Font(None, 32)
         text = font.render(self.text, True, BUTTON_TEXT_COLOR)
@@ -48,8 +49,10 @@ class Button:
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            print(event)
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(mouse_pos):
+                print("Połączenie")
                 self.action()
 
     def action(self):

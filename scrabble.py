@@ -51,7 +51,9 @@ for letter in player1_letters:
 for letter in player2_letters:
     letter.make_rect()
 
-
+play_rect = pygame.Rect(WIDTH // 2 - 75, 250, 150, 50)
+rules_rect = pygame.Rect(WIDTH // 2 - 75, 350, 150, 50)
+exit_rect = pygame.Rect(WIDTH // 2 - 75, 450, 150, 50)
 #? Główna pętla gry
 def run_game():
     #? falgi do sterowania funkcjami w grze
@@ -59,7 +61,9 @@ def run_game():
     game_flag = False
     rules_screen = False
     player_turn = True
-    
+
+    global play_rect, rules_rect, exit_rect
+
     while True:
         #* rysowanie menu
         if menu_flag:
@@ -93,9 +97,7 @@ def run_game():
                 mouse_pos = pygame.mouse.get_pos()
                 #* ryowanie menu
                 if menu_flag:
-                    play_rect = pygame.Rect(WIDTH // 2 - 75, 250, 150, 50)
-                    rules_rect = pygame.Rect(WIDTH // 2 - 75, 350, 150, 50)
-                    exit_rect = pygame.Rect(WIDTH // 2 - 75, 450, 150, 50)
+
                     #*obsługa przycisków w menu i ustawianie flag
                     if play_rect.collidepoint(mouse_pos):
                         menu_flag = False
