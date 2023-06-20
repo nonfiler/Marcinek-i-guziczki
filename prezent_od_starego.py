@@ -294,3 +294,7 @@ class Board:
             letter_text = font.render(letter, True, self.WHITE)
             self.window.blit(letter_text, (
             letter_rect.centerx - letter_text.get_width() // 2, letter_rect.centery - letter_text.get_height() // 2))
+            
+            
+game = Game()
+game.main()
