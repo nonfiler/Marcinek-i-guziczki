@@ -1,5 +1,6 @@
 import pygame
 from buttons_on_board import GameControls
+import enchant
 
 BOARD_SIZE = 15
 BOARD_POS_X = 50
@@ -24,10 +25,10 @@ class Board:
         self.WHITE = white
         self.BLACK = black
         self.player1_letters = p1_let
-        self.player1_score = Score("Player 1")
-        self.player2_letters = p2_let
-        self.player2_score = Score("Player 2")
+        self.player2_letters = p2_let       
         self.current_player = c_player
+        self.player1_score = Score("Player 1")
+        self.player2_score = Score("Player 2")
 
         self.game_controls = GameControls()
         self.game_controls.set_center(x=self.width - 155, y=self.height - 170)
@@ -88,10 +89,8 @@ class Board:
 
         for button in self.game_controls.buttons:
             button.draw(self.window)
-
-        self.player1_score.draw_score(self.window, (830, 120), 10, self.current_player.current_player)
-        self.player2_score.draw_score(self.window, (1040, 120), 30, not self.current_player.current_player)
-
+        self.player1_score.draw_score(self.window, (830, 120), self.current_player.current_player)
+        self.player2_score.draw_score(self.window, (1040, 120), not self.current_player.current_player)
 
 
     def handle_event(self, event):
@@ -99,6 +98,74 @@ class Board:
             string = button.handle_event(event)
             if string:
                 return string
+    def search_words(self):
+        word_list = []
+        # Wyszukiwanie poziome
+        for row in self.board_logic:
+            word = ""
+            for cell in row:
+                if cell[0] is not None:
+                    word += cell[0]
+                else:
+                    if word != "":
+                        word_list.append(word)
+                        word = ""
+            if word != "":
+                word_list.append(word)
+
+        # Wyszukiwanie pionowe
+        for col in range(len(self.board_logic[0])):
+            word = ""
+            for row in range(len(self.board_logic)):
+                cell = self.board_logic[row][col]
+                if cell[0] is not None:
+                    word += cell[0]
+                else:
+                    if word != "":
+                        word_list.append(word)
+                        word = ""
+            if word != "":
+                word_list.append(word)
+
+        word_list = [word for word in word_list if len(word) > 1]
+                
+        found_words = []
+        english_dict = enchant.Dict("en_US")
+        for word in word_list:
+            if english_dict.check(word):
+                found_words.append(word)
+        return found_words
+
+    def find_word(self, word):
+        # Wyszukiwanie poziome
+        for row in range(len(self.board_logic)):
+            for col in range(len(self.board_logic[0])):
+                found_word = ""
+                for i in range(len(word)):
+                    if col + i >= len(self.board_logic[0]):
+                        break
+                    cell = self.board_logic[row][col + i]
+                    if cell[0] is None:
+                        break
+                    found_word += cell[0]
+                if found_word == word:
+                    return (row, col, "poziomo")
+
+        # Wyszukiwanie pionowe
+        for col in range(len(self.board_logic[0])):
+            for row in range(len(self.board_logic)):
+                found_word = ""
+                for i in range(len(word)):
+                    if row + i >= len(self.board_logic):
+                        break
+                    cell = self.board_logic[row + i][col]
+                    if cell[0] is None:
+                        break
+                    found_word += cell[0]
+                if found_word == word:
+                    return (row, col, "pionowo")
+
+        return None
 
 class Square:
     def __init__(self, nr):
@@ -172,18 +239,19 @@ class Square:
             return False
         else:
             return True
-
+        
 class Score:
     def __init__(self, player: str):
         self.player = player.capitalize()
         self.surface = pygame.Surface((200, 100))
         self.rect = self.surface.get_rect()
         self.font = pygame.font.Font(None, 50)
+        self.score = 0
 
     def set_center(self, x, y):
         self.rect.center = x, y
 
-    def draw_score(self, screen: pygame.display, screen_coords: tuple, score: int, is_current: bool):
+    def draw_score(self, screen: pygame.display, screen_coords: tuple, is_current: bool):
         self.surface.fill((255, 255, 255))
         if is_current:
             color = (0, 0, 0)
@@ -195,7 +263,7 @@ class Score:
 
         self.surface.blit(player_name, player_name_rect)
 
-        score_text = self.font.render(str(score), True, color)
+        score_text = self.font.render(str(self.score), True, color)
         score_text_rect = score_text.get_rect()
         score_text_rect.center = 100, 75
 
@@ -205,4 +273,3 @@ class Score:
         self.rect.center = x, y
 
         screen.blit(self.surface, self.rect)
-

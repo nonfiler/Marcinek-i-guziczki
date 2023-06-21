@@ -4,6 +4,7 @@ import board_new
 from rules import Rules
 from letters import LetterGenerator
 
+
 button_width = 350
 button_height = 80
 button_margin = 25
@@ -69,6 +70,19 @@ def run_game():
 
     global play_rect, rules_rect, exit_rect
     squares_on_board = []
+    words_on_board = []
+    scores = {}
+    for k, v in {
+            "AEIOULNRST": 1,
+            "DG": 2,
+            "BCMP": 3,
+            "FHVWY": 4,
+            "K": 5,
+            "JX": 8,
+            "QZ": 10
+        }.items():
+        scores.update({x: v for x in k})
+        
     while True:
         #* rysowanie menu
         if menu_flag:
@@ -139,38 +153,129 @@ def run_game():
                             current_player.current_player = not current_player.current_player
                         case "Check word":
                             if current_player.current_player:
+                                new_letters = []
+                                
+                                #Jesli literka na planszy i nie ma tam innej literki to ją wpisujemy tymczasowo w to pole i zapisujemy jej indexy
                                 for x in range (len(player1_letters)):
                                     if player1_letters[6 - x].check_if_on_board():
                                         index_x = int(player1_letters[6 - x].rect.center[1] / 42)
                                         index_y = int(player1_letters[6 - x].rect.center[0] / 42)
                                         if board.board_logic[index_x][index_y][0] is None:
                                             board.board_logic[index_x][index_y][0] = player1_letters[6 - x].letter
+                                            new_letters.append((index_x,index_y))
+                                            
+                                #Szukamy słów w tablicy i usuwamy je jeśli już były użyte wcześniej
+                                founded_words = board.search_words()
+                                founded_words = [word for word in founded_words if word not in words_on_board]
+                                
+                                #Jeśli mamy conajmniej jedno słowo dodajemy literki na planszę na stałe i usuwamy ich koordy z miejsca po prawej
+                                #jeśli nie to literki wracają na prawo i usuwamy na zapisanych indexach literki z tablicy
+                                if len(founded_words) > 0:
+                                    for x in range (len(player1_letters)):
+                                        if player1_letters[6 - x].check_if_on_board():
+                                            index_x = int(player1_letters[6 - x].rect.center[1] / 42)
+                                            index_y = int(player1_letters[6 - x].rect.center[0] / 42)
+                                            board.board_logic[index_x][index_y][0] = player1_letters[6 - x].letter
                                             player1_letters[6 - x].reset_pos = player1_letters[6 - x].rect.center
                                             squares_on_board.append(player1_letters.pop(6 - x))
-                                                
+                                            
+                                    coords = board.find_word(founded_words[0])
+                                    score = 0
+                                    if coords[2] == "poziomo":
+                                        for y in range(len(founded_words[0])):
+                                            if board.board_logic[coords[0]][coords[1]+ y][1] == "empty":
+                                                score += scores[board.board_logic[coords[0]][coords[1]+ y][0]]
+                                            elif board.board_logic[coords[0]][coords[1]+ y][1] == "2l":
+                                                score += (2 * scores[board.board_logic[coords[0]][coords[1]+ y][0]])
+                                            elif board.board_logic[coords[0]][coords[1]+ y][1] == "3l":
+                                                score += (3 * scores[board.board_logic[coords[0]][coords[1]+ y][0]])
+                                            elif board.board_logic[coords[0]][coords[1]+ y][1] == "2w":
+                                                score += (2 * len(founded_words[0]))
+                                            elif board.board_logic[coords[0]][coords[1]+ y][1] == "3w":
+                                                score += (3 * len(founded_words[0]))
+                                    else:
+                                        for x in range(len(founded_words[0])):
+                                            if board.board_logic[coords[0] + x][coords[1]][1] == "empty":
+                                                score += scores[board.board_logic[coords[0] + x][coords[1]][0]]
+                                            elif board.board_logic[coords[0] + x][coords[1]][1] == "2l":
+                                                score += (2 * scores[board.board_logic[coords[0] + x][coords[1]][0]])
+                                            elif board.board_logic[coords[0] + x][coords[1]][1] == "3l":
+                                                score += (3 * scores[board.board_logic[coords[0] + x][coords[1]][0]])
+                                            elif board.board_logic[coords[0] + x][coords[1]][1] == "2w":
+                                                score += (2 * len(founded_words[0]))
+                                            elif board.board_logic[coords[0] + x][coords[1]][1] == "3w":
+                                                score += (3 * len(founded_words[0]))
+                                    board.player1_score.score += score
+                                        
+                                else:
+                                    for coords in new_letters:
+                                        board.board_logic[coords[0]][coords[1]][0] = None
+                                
+                                #Generuje brakujące literki
                                 missing_squares = 7 - len(player1_letters)
                                 list_of_squares = letters1.generate_letters(missing_squares)
                                 
+                                #Dodaje wygenerowane literki
                                 for square in list_of_squares:
                                     player1_letters.append(square)
                                 for letter in player1_letters:
                                     letter.set_board(board)
                                     letter.nr = player1_letters.index(letter)
                                     letter.make_rect()
-
+                                    
                             else:
+                                new_letters = []
                                 for x in range (len(player2_letters)):
                                     if player2_letters[6 - x].check_if_on_board():
                                         index_x = int(player2_letters[6 - x].rect.center[1] / 42)
                                         index_y = int(player2_letters[6 - x].rect.center[0] / 42)
                                         if board.board_logic[index_x][index_y][0] is None:
                                             board.board_logic[index_x][index_y][0] = player2_letters[6 - x].letter
+                                            new_letters.append((index_x,index_y))
+                                            
+                                            
+                                founded_words = board.search_words()
+                                founded_words = [word for word in founded_words if word not in words_on_board]
+                                
+                                if len(founded_words) > 0:
+                                    for x in range (len(player2_letters)):
+                                        if player2_letters[6 - x].check_if_on_board():
+                                            index_x = int(player2_letters[6 - x].rect.center[1] / 42)
+                                            index_y = int(player2_letters[6 - x].rect.center[0] / 42)
+                                            board.board_logic[index_x][index_y][0] = player2_letters[6 - x].letter
                                             player2_letters[6 - x].reset_pos = player2_letters[6 - x].rect.center
-                                            squares_on_board.append(player2_letters.pop(6 - x))   
-                                        
-                                        
+                                            squares_on_board.append(player2_letters.pop(6 - x))
+                                            
+                                    coords = board.find_word(founded_words[0])
+                                    score = 0
+                                    if coords[2] == "poziomo":
+                                        for y in range(len(founded_words[0])):
+                                            if board.board_logic[coords[0]][coords[1]+ y][1] == "empty":
+                                                score += scores[board.board_logic[coords[0]][coords[1]+ y][0]]
+                                            elif board.board_logic[coords[0]][coords[1]+ y][1] == "2l":
+                                                score += (2 * scores[board.board_logic[coords[0]][coords[1]+ y][0]])
+                                            elif board.board_logic[coords[0]][coords[1]+ y][1] == "3l":
+                                                score += (3 * scores[board.board_logic[coords[0]][coords[1]+ y][0]])
+                                            elif board.board_logic[coords[0]][coords[1]+ y][1] == "2w":
+                                                score += (2 * len(founded_words[0]))
+                                            elif board.board_logic[coords[0]][coords[1]+ y][1] == "3w":
+                                                score += (3 * len(founded_words[0]))
+                                    else:
+                                        for x in range(len(founded_words[0])):
+                                            if board.board_logic[coords[0] + x][coords[1]][1] == "empty":
+                                                score += scores[board.board_logic[coords[0] + x][coords[1]][0]]
+                                            elif board.board_logic[coords[0] + x][coords[1]][1] == "2l":
+                                                score += (2 * scores[board.board_logic[coords[0] + x][coords[1]][0]])
+                                            elif board.board_logic[coords[0] + x][coords[1]][1] == "3l":
+                                                score += (3 * scores[board.board_logic[coords[0] + x][coords[1]][0]])
+                                            elif board.board_logic[coords[0] + x][coords[1]][1] == "2w":
+                                                score += (2 * len(founded_words[0]))
+                                            elif board.board_logic[coords[0] + x][coords[1]][1] == "3w":
+                                                score += (3 * len(founded_words[0]))
+                                    board.player2_score.score += score
+                                                
                                 missing_squares = 7 - len(player2_letters)
-                                list_of_squares = letters2.generate_letters(missing_squares)
+                                list_of_squares = letters1.generate_letters(missing_squares)
                                 
                                 for square in list_of_squares:
                                     player2_letters.append(square)
@@ -178,6 +283,7 @@ def run_game():
                                     letter.set_board(board)
                                     letter.nr = player2_letters.index(letter)
                                     letter.make_rect()
+                            
                             current_player.current_player = not current_player.current_player
       
 run_game()
