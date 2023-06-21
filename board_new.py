@@ -24,7 +24,9 @@ class Board:
         self.WHITE = white
         self.BLACK = black
         self.player1_letters = p1_let
-        self.player2_letters = p2_let       
+        self.player1_score = Score("Player 1")
+        self.player2_letters = p2_let
+        self.player2_score = Score("Player 2")
         self.current_player = c_player
 
         self.game_controls = GameControls()
@@ -86,6 +88,9 @@ class Board:
 
         for button in self.game_controls.buttons:
             button.draw(self.window)
+
+        self.player1_score.draw_score(self.window, (830, 120), 10, self.current_player.current_player)
+        self.player2_score.draw_score(self.window, (1040, 120), 30, not self.current_player.current_player)
 
 
 
@@ -167,3 +172,37 @@ class Square:
             return False
         else:
             return True
+
+class Score:
+    def __init__(self, player: str):
+        self.player = player.capitalize()
+        self.surface = pygame.Surface((200, 100))
+        self.rect = self.surface.get_rect()
+        self.font = pygame.font.Font(None, 50)
+
+    def set_center(self, x, y):
+        self.rect.center = x, y
+
+    def draw_score(self, screen: pygame.display, screen_coords: tuple, score: int, is_current: bool):
+        self.surface.fill((255, 255, 255))
+        if is_current:
+            color = (0, 0, 0)
+        else:
+            color = (150, 0, 0)
+        player_name = self.font.render(self.player, True, color)
+        player_name_rect = player_name.get_rect()
+        player_name_rect.center = 100, 25
+
+        self.surface.blit(player_name, player_name_rect)
+
+        score_text = self.font.render(str(score), True, color)
+        score_text_rect = score_text.get_rect()
+        score_text_rect.center = 100, 75
+
+        self.surface.blit(score_text, score_text_rect)
+
+        x, y = screen_coords
+        self.rect.center = x, y
+
+        screen.blit(self.surface, self.rect)
+
