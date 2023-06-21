@@ -99,10 +99,10 @@ def run_game():
             if game_flag:
                 if current_player.current_player:
                     for letter in player1_letters:
-                        letter.handle_event(event)
+                        letter.handle_event(event, board, player1_letters, player2_letters)
                 else:
                     for letter in player2_letters:
-                        letter.handle_event(event)
+                        letter.handle_event(event, board, player1_letters, player2_letters)
             #* sczytywanie pozycji dla myszki
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
@@ -130,11 +130,23 @@ def run_game():
                 elif game_flag:
                     match board.handle_event(event):
                         case "Pass":
-                            if not current_player.current_player:
+                            if current_player.current_player:
+                                for letter in player1_letters:
+                                    letter.rect.center = letter.reset_pos
+                            else:
+                                for letter in player2_letters:
+                                    letter.rect.center = letter.reset_pos
+                            current_player.current_player = not current_player.current_player
+                        case "Check word":
+                            if current_player.current_player:
                                 for x in range (len(player1_letters)):
                                     if player1_letters[6 - x].check_if_on_board():
-                                        player1_letters[6 - x].reset_pos = player1_letters[6 - x].rect.center
-                                        squares_on_board.append(player1_letters.pop(6 - x))
+                                        index_x = int(player1_letters[6 - x].rect.center[1] / 42)
+                                        index_y = int(player1_letters[6 - x].rect.center[0] / 42)
+                                        if board.board_logic[index_x][index_y][0] is None:
+                                            board.board_logic[index_x][index_y][0] = player1_letters[6 - x].letter
+                                            player1_letters[6 - x].reset_pos = player1_letters[6 - x].rect.center
+                                            squares_on_board.append(player1_letters.pop(6 - x))
                                                 
                                 missing_squares = 7 - len(player1_letters)
                                 list_of_squares = letters1.generate_letters(missing_squares)
@@ -149,8 +161,14 @@ def run_game():
                             else:
                                 for x in range (len(player2_letters)):
                                     if player2_letters[6 - x].check_if_on_board():
-                                        player2_letters[6 - x].reset_pos = player2_letters[6 - x].rect.center
-                                        squares_on_board.append(player2_letters.pop(6 - x))    
+                                        index_x = int(player2_letters[6 - x].rect.center[1] / 42)
+                                        index_y = int(player2_letters[6 - x].rect.center[0] / 42)
+                                        if board.board_logic[index_x][index_y][0] is None:
+                                            board.board_logic[index_x][index_y][0] = player2_letters[6 - x].letter
+                                            player2_letters[6 - x].reset_pos = player2_letters[6 - x].rect.center
+                                            squares_on_board.append(player2_letters.pop(6 - x))   
+                                        
+                                        
                                 missing_squares = 7 - len(player2_letters)
                                 list_of_squares = letters2.generate_letters(missing_squares)
                                 
@@ -160,5 +178,6 @@ def run_game():
                                     letter.set_board(board)
                                     letter.nr = player2_letters.index(letter)
                                     letter.make_rect()
+                            current_player.current_player = not current_player.current_player
       
 run_game()

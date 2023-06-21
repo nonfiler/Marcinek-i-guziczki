@@ -34,7 +34,7 @@ class Button:
         self.surface.fill((150, 150, 150))
         self.rect = self.surface.get_rect()
         self.rect.center = x, y
-        self.text = text.capitalize()
+        self.text = text
 
     def set_center(self, coords: tuple):
         self.rect.center = coords
@@ -47,20 +47,21 @@ class Button:
         self.surface.blit(text, text_rect)
         surface.blit(self.surface, self.rect)
 
-    def handle_event(self, event, current_player):
+    def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(mouse_pos):
-                return self.action(current_player)
+                return self.action()
+            else:
+                return False
 
-    def action(self, current_player):
+    def action(self):
         match self.text:
             case "Pass":
-                self.button_pass(current_player)
                 return "Pass"
 
             case "Check word":
-                self.button_check_word()
+                return "Check word"
 
             case "Change letter":
                 self.button_change_letter()
@@ -68,23 +69,12 @@ class Button:
             case "Commence defeat":
                 self.button_commence_defeat()
 
-    def button_pass(self, current_player):
-        # Implement the action for the "Pass" button
-        current_player.current_player = not current_player.current_player
-        
-        
+    def button_change_letter(self):
+        # Implement the action for the "Change Random Letter" button
+        print("Change Random Letter Button Pressed")
+        print("Letter Changed, Score Updated, and Player Switched")
 
-    # def button_check_word(self):
-    #     # Implement the action for the "Check Word" button
-    #     print("Check Word Button Pressed")
-    #     print("Word Checked, Score Updated, and Player Switched")
-
-    # def button_change_letter(self):
-    #     # Implement the action for the "Change Random Letter" button
-    #     print("Change Random Letter Button Pressed")
-    #     print("Letter Changed, Score Updated, and Player Switched")
-
-    # def button_commence_defeat(self):
-    #     # Implement the action for the "Commence Defeat" button
-    #     print("Commence Defeat Button Pressed, Game over")
+    def button_commence_defeat(self):
+        # Implement the action for the "Commence Defeat" button
+        print("Commence Defeat Button Pressed, Game over")
         

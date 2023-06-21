@@ -17,7 +17,7 @@ SQUARE_RESET_POS_X = 300
 SQUARE_RESET_POS_Y = 300
 
 class Board:
-    def __init__(self, window, width, height, black, white, p1_let, p2_let, c_player):
+    def __init__(self, window, width, height, black, white, p1_let: list, p2_let: list, c_player):
         self.window = window
         self.width = width
         self.height = height
@@ -91,7 +91,9 @@ class Board:
 
     def handle_event(self, event):
         for button in self.game_controls.buttons:
-            return button.handle_event(event, self.current_player)
+            string = button.handle_event(event)
+            if string:
+                return string
 
 class Square:
     def __init__(self, nr):
@@ -122,7 +124,7 @@ class Square:
         pygame.draw.rect(self.board.window, self.board.BLACK, self.rect)
         self.board.window.blit(self.letter_text, (self.rect.centerx - self.letter_text.get_width() // 2, self.rect.centery - self.letter_text.get_height() // 2))
 
-    def handle_event(self, event):
+    def handle_event(self, event, board, p1_letters, p2_letters):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(mouse_pos):
@@ -134,6 +136,23 @@ class Square:
                 x = int(self.rect.center[0] / 42)
                 y = int(self.rect.center[1] / 42)
                 self.rect.center = (x * 42 + 20, y * 42 + 20)
+                licznik = 0
+                if board.board_logic[x][y][0] is None:
+                    for letter in p1_letters:
+                        if letter.rect.center == (x * 42 + 20, y * 42 + 20):
+                            licznik += 1
+                            if licznik == 2:
+                                self.rect.center = self.reset_pos
+                                return
+                    licznik = 0
+                    for letter in p2_letters:
+                        if letter.rect.center == (x * 42 + 20, y * 42 + 20):
+                            licznik += 1
+                            if licznik == 2:
+                                self.rect.center = self.reset_pos
+                                return
+                else:
+                    self.rect.center = self.reset_pos
             else:
                 # Jeśli kwadrat nie został umieszczony na planszy, resetuj jego pozycję
                 self.rect.center = self.reset_pos
