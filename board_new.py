@@ -32,6 +32,8 @@ class Board:
 
         self.game_controls = GameControls()
         self.game_controls.set_center(x=self.width - 155, y=self.height - 170)
+        self.concede = Concede()
+        self.concede.set_center(1000, 450)
 
         self.game_controls.add_button("Pass", x=self.width - 155, y=self.height - 295)
         self.game_controls.add_button("Check word", x=self.width - 155, y=self.height - 210)
@@ -95,7 +97,7 @@ class Board:
 
     def handle_event(self, event):
         for button in self.game_controls.buttons:
-            string = button.handle_event(event)
+            string = button.handle_event(event, self.concede, self.window, self.current_player.current_player)
             if string:
                 return string
     def search_words(self):
@@ -239,12 +241,13 @@ class Square:
             return False
         else:
             return True
-        
-class Score:
+
+
+class Score(pygame.Surface):
     def __init__(self, player: str):
+        super().__init__((250, 100))
         self.player = player.capitalize()
-        self.surface = pygame.Surface((200, 100))
-        self.rect = self.surface.get_rect()
+        self.rect = self.get_rect()
         self.font = pygame.font.Font(None, 50)
         self.score = 0
 
@@ -252,24 +255,51 @@ class Score:
         self.rect.center = x, y
 
     def draw_score(self, screen: pygame.display, screen_coords: tuple, is_current: bool):
-        self.surface.fill((255, 255, 255))
-        if is_current:
+        self.fill((255, 255, 255))
+
+        if not is_current:
             color = (0, 0, 0)
         else:
             color = (150, 0, 0)
+
         player_name = self.font.render(self.player, True, color)
         player_name_rect = player_name.get_rect()
         player_name_rect.center = 100, 25
 
-        self.surface.blit(player_name, player_name_rect)
+        self.blit(player_name, player_name_rect)
 
         score_text = self.font.render(str(self.score), True, color)
         score_text_rect = score_text.get_rect()
         score_text_rect.center = 100, 75
 
-        self.surface.blit(score_text, score_text_rect)
+        self.blit(score_text, score_text_rect)
 
         x, y = screen_coords
         self.rect.center = x, y
 
-        screen.blit(self.surface, self.rect)
+        screen.blit(self, self.rect)
+
+
+class Concede(pygame.Surface):
+    def __init__(self):
+        super().__init__((300, 50))
+        self.rect = self.get_rect()
+
+    def set_center(self, x, y):
+        self.rect.center = x, y
+
+    def draw(self, window, current_player):
+        self.fill((255, 255, 255))
+        font = pygame.font.Font(None, 50)
+
+        if current_player:
+            text = font.render("Player 2 wins", True, (0, 0, 0))
+        else:
+            text = font.render("Player 1 wins", True, (0, 0, 0))
+
+        text_rect = text.get_rect()
+        text_rect.center = 150, 25
+
+        self.blit(text, text_rect)
+
+        window.blit(self, self.rect)

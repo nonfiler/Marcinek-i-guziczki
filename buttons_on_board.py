@@ -1,4 +1,5 @@
 import pygame
+from time import sleep
 BOARD_SIZE = 15
 BOARD_POS_X = 50
 BOARD_POS_Y = 50
@@ -47,15 +48,14 @@ class Button:
         self.surface.blit(text, text_rect)
         surface.blit(self.surface, self.rect)
 
-    def handle_event(self, event):
+    def handle_event(self, event, concede, window, current_player):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if self.rect.collidepoint(mouse_pos):
-                return self.action()
-            else:
-                return False
+                return self.action(concede, window, current_player)
+        return False
 
-    def action(self):
+    def action(self, concede, window, current_player):
         match self.text:
             case "Pass":
                 return "Pass"
@@ -67,14 +67,17 @@ class Button:
                 self.button_change_letter()
 
             case "Commence defeat":
-                self.button_commence_defeat()
+                self.button_commence_defeat(concede, window, current_player)
 
     def button_change_letter(self):
         # Implement the action for the "Change Random Letter" button
         print("Change Random Letter Button Pressed")
         print("Letter Changed, Score Updated, and Player Switched")
 
-    def button_commence_defeat(self):
+    def button_commence_defeat(self, concede, window, current_player):
         # Implement the action for the "Commence Defeat" button
         print("Commence Defeat Button Pressed, Game over")
-        
+        concede.draw(window, current_player)
+        pygame.display.flip()
+        sleep(3)
+        pygame.quit()
